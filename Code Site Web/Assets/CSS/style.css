@@ -1,0 +1,95 @@
+:root {
+    --couleur-texte1: rgb(255, 255, 255);
+    --couleur-texte2: rgb(0, 0, 0);
+    --couleur-font: rgb(232, 198, 238);
+    --couleur-nav: rgb(116, 1, 139);
+    --couleur1: rgb(158, 78, 173);
+}
+
+main {
+    text-align: center; /*Sert à mettre le texte au centre de la page*/
+    background-color: var(--couleur1);/*Définit la couleur du main*/
+    padding: 30px 15px 30px 15px;/*Ajoute de l'espace interieur en haut, à droite, en bas et à gauche*/
+}
+
+nav {
+    position: sticky;/*Permet de laisser la barre de nav visible*/
+    background-color: var(--couleur-nav);/*Définit la couleur de la barre de nav*/
+    top: 0;/*la barre reste collée en haut*/
+    padding: 10px;/*ajoute un espace autour du texte*/
+    z-index: 100;/*Place la barre au dessus des autres de z-index inferieur*/
+}
+
+html, body {
+    margin: 0;/*Supprime la marge exterieurs par défaut*/
+    padding: 0;/*supprime les espacements inferieurs par défaut*/
+    background-color: var(--couleur-font);/*Définit la couleur de font*/
+}
+.auteurs {
+    display: flex; /*Active le système FlexBox*/
+    flex-direction: row;/*Liste d'élément verticaux*/
+    gap: 15px;/*Espace entre les éléments*/
+    align-items: center;/*Centre les éléments verticalement*/
+    justify-content: center;/*Centre les éléments horizontalement*/
+    flex-wrap: wrap;/*Pemet aux éléments de passer en dessous si on manque de place*/
+}
+
+.menu_navigation {
+    display: flex; /*Active le système FlexBox*/
+    justify-content: center;/*Centre les éléments horizontalement*/
+    align-items: center;/*Centre les éléments verticalement*/
+    gap: 30px;/*Ajoute un espace entre chaques éléments*/
+    list-style: none;/*Efface les puces de la liste*/
+    margin: 0;/*Supprime les marges exterieures*/
+
+}
+
+.menu_navigation a { /*Tout les liens du nav*/
+    font-size: 20px;/*Change la taille des liens*/
+    text-decoration: none;/*Supprime le soulignement des liens*/
+    color: var(--couleur-texte1);/*Change la couleur des liens*/
+    font-weight: bold;/*Met les liens en gras*/
+}
+
+.menu_navigation a:hover {/*Liens lorsque la souris passe dessus*/
+    color: var(--couleur1);/*Change la couleur du texte au survol*/
+}
+
+#burger {/*L'icone burger*/
+    display: none;/*Masque la case à cocher du burger*/
+}
+
+.navigation label {/*Symbole burger*/
+    display: none;/*Masque le symbole burger par défaut*/
+    font-size: 25px;/*Donne la taille du burger*/
+    cursor: pointer;/*Change la souris en petite main*/
+    color: var(--couleur-font);
+    text-align: center;/*Met le burger au centre*/
+    transform: scaleX(2);
+}
+
+footer {
+    text-align: center;/*Met le texte au centre de la page*/
+    background-color: var(--couleur-nav);/*Définit la couleur du footer*/
+    padding: 15px;/*Ajout un espace autour du texte*/
+}
+
+footer p {
+    color: var(--couleur-font);/*Défini la couleur du texte du footer*/
+}
+
+@media screen and (max-width: 768px){/*Décrit les changement pour mobiles*/
+    .navigation label {
+        display: block;/*Affiche le symbole burger*/
+    }
+
+    .menu_navigation {/*Symbole burger*/
+        display: none;/*Masque les liens*/
+        flex-direction: column;/*Organise les liens les uns en dessous des autres*/
+        align-items: flex-start;/*Aligne les liens en dessous au début du conteneur*/
+    }
+
+    #burger:checked ~ .menu_navigation {/*Lorsque la CheckBox est cochée*/
+        display: flex;/*Affiche le menu lorsque CheckBox cochée*/
+    }
+}
