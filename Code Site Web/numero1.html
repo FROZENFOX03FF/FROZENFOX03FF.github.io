@@ -12,7 +12,7 @@
                 <label for="burger">☰</label> <!--Pour la liste à roulement pour mobile-->
                 <input type="checkbox" id="burger">
                 <ul class="menu_navigation"> <!--Pour afficher tou les liens de navigation principaux-->
-                    <li><a href="principale.html" class="page">Accueil</a></li>
+                    <li><a href="principale.html">Accueil</a></li>
                     <li><a href="numero1.html">Première partie</a></li>
                     <li><a href="numero2.html">Deuxième partie</a></li>
                     <li><a href="numero3.html">Troisième partie</a></li>
@@ -20,7 +20,174 @@
             </nav>
         </header>
         <main>
-            
+            <h1>Deuxième partie : Réalisation des requètes SQL</h1>
+            <h3>Il nous est demandé ici de réaliser une liste de requêtes. Celles-ci se séparerons en 5 point principaux avec 10 sous catégories dans la première</h3>
+            <div class="presentations_requetes">
+                <h4>Numero 1</h4>
+                <h4>A)</h4>
+                <p>Ici, nous désirons connaitre les clients parisiens de la base de données et ce en les triant dans l’ordre alphabétique.</p>
+                <p>Pour cela il nous faut définir les données qui seront affichées :</p>
+                <ul class="liste_donnees_affichees">
+                    <li>Le nom de la société (Cli.Societe)</li>
+                    <li>Le contact (Cli.Contact)</li>
+                    <li>Le numéro de téléphone (Cli.Tel)</li>
+                    <li>L’adresse mail (Cli.MailCli)</li>
+                    <li>La ville (Cli.Ville)</li>
+                </ul>
+                <p>En regardant la base de données, nous voyons que toutes ces données se trouve dans une seule [Clientele].</p>
+                <p>Il nous est seulement demandé que le client doit être situé à Paris, on peut simplement vérifier en regardant Cli.Ville dans la table [Clientele].</p>
+                <h5>Cette requête se présentera sous cette forme :</h5>
+                <div class="code_sql">
+                    <p>SELECT</p>
+                    <p class="niv1">Cli.Societe,</p>
+                    <p class="niv1">Cli.Contact,</p>
+                    <p class="niv1">Cli.Tel,</p>
+                    <p class="niv1">Cli.MailCli AS Mail,</p>
+                    <p class="niv1">Cli.Ville</p>
+                    <p>FROM</p>
+                    <p class="niv1">Clientele AS Cli</p>
+                    <p>WHERE</p>
+                    <p class="niv1">Cli.Ville LIKE "*Paris*"</p>
+                    <p>ORDER BY</p>
+                    <p class="niv1">Cli.Societe;</p>
+                </div>
+                <h5>La requête renverra :</h5>
+                <img src="assets/img/1_a.png" alt="Requête A">
+                <h4>B)</h4>
+                <p>Nous cherchons à afficher les produits venants des Etats-Unis coutant moins de 25€.</p>
+                <p>Pour cela, on affiche :</p>
+                <ul class="liste_donnees_affichees">
+                    <li>Son nom (Pr.NomProd)</li>
+                    <li>Son prix (Pr.CoutAchat)</li>
+                    <li>Le fournisseur (F.Societe)</li>
+                    <li>La ville du fournisseur (F.Ville)</li>
+                </ul>
+                <p>Toutes ces différentes données sont séparées entre les tables [Fournisseur] et [Produit], il sera donc nécessaire de lier ces 2 tables à condition que :</p>
+                <ul class="liste_tables_liees">
+                    <li>F.NoFour = Pr.NoFour</li>
+                </ul>
+                <p>Maintenant, nous devons vérifier que le fournisseur vienne bien des États-Unis et que le prix de l’article est inferieur à 25€, cela peut se vérifier en regardant les attributs F.NoPays et Pr.CoutAchat.</p>
+                <p>Mais, si l’on résonne comme cela, nous devons connaitre le numéro de chaque pays et cela serai vraiment inconfortable.</p>
+                <p>Pour pallier ce problème, nous pouvons lier les tables [Pays] et [Fournisseur] pour :</p>
+                <ul class="liste_tables_liees">
+                    <li>Pa.NoPays = F.NoPays</li>
+                </ul>
+                <p>Et regarder Pa.PaysFR à la place de F.NoPays. (Nous choisissons Pa.PaysFR au lieu de Pa.PaysEN pour plus de confort étant donné que ce travail est en français)</p>
+                <h5>Cette requête se présentera sous cette forme :</h5>
+                <div class="code_sql">
+                    <p>SELECT</p>
+                    <p class="niv1">Pr.NomProd,</p>
+                    <p class="niv1">Pr.CoutAchat,</p>
+                    <p class="niv1">F.Societe,</p>
+                    <p class="niv1">F.Ville</p>
+                    <p>FROM</p>
+                    <p class="niv1">Produit AS Pr,</p>
+                    <p class="niv1">Fournisseur AS F,</p>
+                    <p class="niv1">Pays AS Pa</p>
+                    <p>WHERE</p>
+                    <p class="niv1">F.NoFour = Pr.NoFour</p>
+                    <p class="niv1">AND Pa.NoPays = F.NoPays</p>
+                    <p class="niv1">AND Pr.CoutAchat < 25</p>
+                    <p class="niv1">Pa.PaysFR LIKE "*Etats-Unis*"</p>
+                    <p>ORDER BY</p>
+                    <p class="niv1">Pr.NomProd,</p>
+                    <p class="niv1">Pr.NoFour;</p>
+                </div>
+                <h5>La requête renverra :</h5>
+                <img src="assets/img/1_b.png" alt="Requête B">
+                <h4>C)</h4>
+                <p>Il nous est demandé d’afficher les produits de catégories viandes ou poisson coutant plus de 50€.</p>
+                <p>Pour cela, nous devrions afficher :</p>
+                <ul class="liste_donnees_affichees">
+                    <li>Le nom du produit (Pr.NomProd)</li>
+                    <li>Son prix (Pr.CoutAchat)</li>
+                    <li>Sa catégorie (Cat.NomCateg)</li>
+                    <li>Son fournisseur (F.Societe)</li>
+                    <li>Son pays de provenance (Pa.PaysFR)</li>
+                </ul>
+                <p>Pour cela il nous faut lier les tables [Pays], [Fournisseur], [Produit] et [Categorie] avec :</p>
+                <ul class="liste_tables_liees">
+                    <li>Pa.NoPays = F.No.Pays</li>
+                    <li>F.NoFour = Pr.NoFour</li>
+                    <li>Pr.CodeCateg = Cat.CodeCateg</li>
+                </ul>
+                <p>On choisira d’afficher uniquement les produits pour lesquels Cat.NomCateg est égal à Viandes ou Poissons et que Pr.CoutAchat est supérieur à 50€</p>
+                <h5>On réalise la requête avec ceci :</h5>
+                <div class="code_sql">
+                    <p>SELECT</p>
+                    <p class="niv1">Pr.NomProd,</p>
+                    <p class="niv1">Pr.CoutAchat,</p>
+                    <p class="niv1">Cat.NomCateg,</p>
+                    <p class="niv1">F.Societe,</p>
+                    <p class="niv1">Pa.PaysFR</p>
+                    <p>FROM</p>
+                    <p class="niv1">Pays AS Pa,</p>
+                    <p class="niv1">Fournisseur AS F,</p>
+                    <p class="niv1">Produit AS Pr,</p>
+                    <p class="niv1">Categorie AS Cat</p>
+                    <p>WHERE</p>
+                    <p class="niv1">Pa.NoPays = F.NoPays</p>
+                    <p class="niv1">AND F.NoFour = Pr.NoFour</p>
+                    <p class="niv1">AND Pr.CodeCateg = Cat.CodeCateg</p>
+                    <p class="niv1">AND Pr.CoutAchat > 50</p>
+                    <p class="niv1">AND (Cat.NomCateg LIKE "*Viandes*"</p>
+                    <p class="niv1">OR Cat.NomCateg LIKE "*Poissons*")</p>
+                    <p>ORDER BY</p>
+                    <p class="niv1">Pr.NomProd,</p>
+                    <p class="niv1">Cat.NomCateg,</p>
+                    <p class="niv1">F.Societe;</p>
+                </div>
+                <h5>La requête renverra :</h5>
+                <img src="assets/img/1_c.png" alt="Requête C">
+                <h4>D)</h4>
+                <p>Nous devons ici afficher les fournisseurs qui vendent de la viande ou du poisson.</p>
+                <p>Pour cela, il faudrait afficher :</p>
+                <ul class="liste_donnees_affichees">
+                    <li>Le nom de la société (F.Societe)</li>
+                    <li>Le contact (F.Contact)</li>
+                    <li>Le numéro de téléphone (F.Tel)</li>
+                    <li>La catégorie du produit (Cat.NomCateg)</li>
+                </ul>
+                <p>Il faut ensuite lier les tables [Produit], [Catégorie] et [Fournisseur] de sorte que :</p>
+                <ul class="liste_tables_liees">
+                    <li>Pr.CodeCateg = Cat.CodeCateg</li>
+                    <li>Pr.NoFour = F.NoFour</li>
+                </ul>
+                <p>Enfin, le plus important, il faut afficher uniquement si le produit fait partie de la catégorie des viandes ou des poissons.</p>
+                <h5>Cette requête se présentera sous cette forme :</h5>
+                <div class="code_sql">
+                    <p>SELECT</p>
+                    <p class="niv1">F.Societe,</p>
+                    <p class="niv1">F.Contact,</p>
+                    <p class="niv1">F.Tel,</p>
+                    <p class="niv1">Cat.NomCateg</p>
+                    <p>FROM</p>
+                    <p class="niv1">Produit AS Pr,</p>
+                    <p class="niv1">Categorie AS Cat,</p>
+                    <p class="niv1">Fournisseur AS F</p>
+                    <p>WHERE</p>
+                    <p class="niv1">Pr.CodeCateg = Cat.CodeCateg</p>
+                    <p class="niv1">AND Pr.NoFour = F.NoFour</p>
+                    <p class="niv1">AND (Cat.NomCateg LIKE "*Viandes*"</p>
+                    <p class="niv1">OR Cat.NomCateg LIKE "*Poissons*")</p>
+                    <p>ORDER BY</p>
+                    <p class="niv1">F.Societe;</p>
+                </div>
+                <h5>La requête renverra :</h5>
+                <img src="assets/img/1_d.png" alt="Requête D">
+            </div>
+            <div class="presentations_requetes">
+                <h4>Numero 2</h4>
+            </div>
+            <div class="presentations_requetes">
+                <h4>Numero 3</h4>
+            </div>
+            <div class="presentations_requetes">
+                <h4>Numero 4</h4>
+            </div>
+            <div class="presentations_requetes">
+                <h4>Numero 5</h4>
+            </div>
         </main>
         <footer>
             <div class="footer_contenu">
@@ -50,4 +217,3 @@
         </footer>
     </body>
 </html>
-
