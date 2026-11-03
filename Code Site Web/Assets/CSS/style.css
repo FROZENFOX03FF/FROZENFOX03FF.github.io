@@ -1,23 +1,67 @@
 :root {
     --couleur-texte1: rgb(255, 255, 255);
-    --couleur-texte2: rgb(0, 0, 0);
     --couleur-font: rgb(232, 198, 238);
     --couleur-nav: rgb(116, 1, 139);
     --couleur1: rgb(158, 78, 173);
 }
 
 main {
-    text-align: center; /*Sert à mettre le texte au centre de la page*/
     background-color: var(--couleur1);/*Définit la couleur du main*/
-    padding: 30px 15px 30px 15px;/*Ajoute de l'espace interieur en haut, à droite, en bas et à gauche*/
+    padding: 60px 30px 80px 30px;/*Ajoute de l'espace interieur en haut, à droite, en bas et à gauche*/
+    min-height: 90vh;/*Donne au main la taille de l'écran*/
+    box-sizing: border-box;/*Inclut le padding dans le calcul de la hauteur*/
+    display: flex;/*Active le système flexbox*/
+    flex-direction: column;/*Organise les éléments verticalement*/
+    justify-content: center;/*Centre le contenu verticalement*/
+    width: 70%;
+    margin: 0 auto;
+}
+
+main h1 {
+    text-align: center; /*Sert à mettre le texte au centre de la page*/
+    font-size: 36px;/*Agrandit le texte*/
+    margin-bottom: 10px;/*Ajoute un espace sous le texte*/
+    color: var(--couleur-texte1);/*Modifie la couleur du texte*/
+}
+
+main h2 {
+    text-align: center; /*Sert à mettre le texte au centre de la page*/
+    font-size: 25px;/*Change la taille du titre*/
+    margin-bottom: 15px;/*Ajoute un espace sous le sous-titre*/
+    color: var(--couleur-texte1);/*Modifie la couleur du texte*/
+}
+
+main h3 {
+    text-align: center; /*Sert à mettre le texte au centre de la page*/
+    font-size: 16px;/*Change la taille du titre*/
+    margin-bottom: 15px;/*Ajoute un espace sous le sous-titre*/
+    color: var(--couleur-texte1);/*Modifie la couleur du texte*/
+}
+
+main h4 {
+    font-size: 30px;/*Change la taille du titre*/
+    margin-bottom: 15px;/*Ajoute un espace sous le sous-titre*/
+    color: var(--couleur-texte1);/*Modifie la couleur du texte*/
+}
+
+main h5 {
+    font-size: 23px;/*Change la taille du titre*/
+    margin-bottom: 15px;/*Ajoute un espace sous le sous-titre*/
+    color: var(--couleur-texte1);/*Modifie la couleur du texte*/
+}
+
+main div {
+    color: var(--couleur-texte1);/*Modifie la couleur du texte*/
 }
 
 nav {
-    position: sticky;/*Permet de laisser la barre de nav visible*/
+    position: fixed;/*Permet de laisser la barre de nav visible*/
     background-color: var(--couleur-nav);/*Définit la couleur de la barre de nav*/
-    top: 0;/*la barre reste collée en haut*/
+    top: 0;/*Colle la barren en haut*/
+    left: 0;/*Colle la barre à gauche*/
     padding: 10px;/*ajoute un espace autour du texte*/
     z-index: 100;/*Place la barre au dessus des autres de z-index inferieur*/
+    width: 100%;/*La barre prend toute la largeur*/
 }
 
 html, body {
@@ -25,9 +69,10 @@ html, body {
     padding: 0;/*supprime les espacements inferieurs par défaut*/
     background-color: var(--couleur-font);/*Définit la couleur de font*/
 }
+
 .auteurs {
     display: flex; /*Active le système FlexBox*/
-    flex-direction: row;/*Liste d'élément verticaux*/
+    flex-direction: row;/*Liste d'élément horizontalement*/
     gap: 15px;/*Espace entre les éléments*/
     align-items: center;/*Centre les éléments verticalement*/
     justify-content: center;/*Centre les éléments horizontalement*/
@@ -63,19 +108,46 @@ html, body {
     display: none;/*Masque le symbole burger par défaut*/
     font-size: 25px;/*Donne la taille du burger*/
     cursor: pointer;/*Change la souris en petite main*/
-    color: var(--couleur-font);
+    color: var(--couleur-font);/*Change la couleur du burger*/
     text-align: center;/*Met le burger au centre*/
-    transform: scaleX(2);
+    transform: scaleX(2);/*Etire le burger sur les cotés*/
+}
+
+.presentation_KDou p {
+    color: var(--couleur-texte1);/*Change la couleur du texte*/
+}
+
+.liste_parties {
+    color: var(--couleur-texte1);/*Défini la couleur du texte*/
+    line-height: 2;/*Augmente l'espace entre les lignes*/
 }
 
 footer {
-    text-align: center;/*Met le texte au centre de la page*/
     background-color: var(--couleur-nav);/*Définit la couleur du footer*/
-    padding: 15px;/*Ajout un espace autour du texte*/
+    color: var(--couleur-font);/*Défini la couleur du texte du footer*/
+    padding: 15px 15px 5px;/*Ajoute un espace autour du texte*/
 }
 
-footer p {
-    color: var(--couleur-font);/*Défini la couleur du texte du footer*/
+.footer_contenu {
+    display: flex; /*Active le système FlexBox*/
+    flex-direction: row;/*Met les éléments en ligne*/
+    justify-content: space-evenly;/*Place les éléments à distance égale de tout(autres éléments ou bord de lécran)*/
+    align-items: flex-start;/*Aligne les éléments sur une ligne en haut commune*/
+}
+
+.footer_colonne a {
+    font-size: 15px;/*Change la taille du texte*/
+    text-decoration: none;/*Supprime le soulignement des liens*/
+    color: var(--couleur-texte1);/*Change la couleur des liens*/
+}
+
+.footer_colonne p {
+    margin: 4px 0;/*Réduit l'espace entre les paragraphes*/
+}
+
+#footer_fin {
+    text-align: center;/*Met le texte au centre*/
+    margin-top: 10px;/*Réduit l'espace autour du texte*/
 }
 
 @media screen and (max-width: 768px){/*Décrit les changement pour mobiles*/
@@ -92,4 +164,17 @@ footer p {
     #burger:checked ~ .menu_navigation {/*Lorsque la CheckBox est cochée*/
         display: flex;/*Affiche le menu lorsque CheckBox cochée*/
     }
+}
+
+.niv1 {
+    margin-left: 15px;/*Décale le texte vers la droite*/
+}
+
+.niv2 {
+    margin-left: 30px;/*Décale le texte vers la droite*/
+}
+
+.code_sql {
+    border-left: 2px solid var(--couleur-texte1);/*Ajoute une bordure à gauche*/
+    padding-left: 10px;/*Décale le texte vers la droite*/
 }
