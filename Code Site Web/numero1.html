@@ -3,15 +3,15 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title> Rapport de la base de données KDou dans le cadre de la SAÉ1_04</title>
-        <link rel="stylesheet" href="assets/CSS/style.css"> <!--Lie au CSS-->
+        <title>Rapport de la base de données KDou dans le cadre de la SAÉ1_04</title>
+        <link rel="stylesheet" href="assets/CSS/style.css">
     </head>
     <body>
         <header>
             <nav class="navigation">
-                <label for="burger">☰</label> <!--Pour la liste à roulement pour mobile-->
+                <label for="burger">☰</label>
                 <input type="checkbox" id="burger">
-                <ul class="menu_navigation"> <!--Pour afficher tou les liens de navigation principaux-->
+                <ul class="menu_navigation">
                     <li><a href="principale.html">Accueil</a></li>
                     <li><a href="numero1.html">Première partie</a></li>
                     <li><a href="numero2.html">Deuxième partie</a></li>
@@ -20,175 +20,118 @@
             </nav>
         </header>
         <main>
-            <h1>Deuxième partie : Réalisation des requètes SQL</h1>
-            <h3>Il nous est demandé ici de réaliser une liste de requêtes. Celles-ci se séparerons en 5 point principaux avec 10 sous catégories dans la première</h3>
+            <h1>Première partie : Analyse de la base KDou</h1>
+            <h3>Dans cette partie, nous allons présenter la base de données, les problèmes trouvés et les améliorations possibles.</h3>
+
             <div class="presentations_requetes">
-                <h4>Numero 1</h4>
-                <h4>A)</h4>
-                <p>Ici, nous désirons connaitre les clients parisiens de la base de données et ce en les triant dans l’ordre alphabétique.</p>
-                <p>Pour cela il nous faut définir les données qui seront affichées :</p>
+                <h4>Numéro 1</h4>
+                <h4>A) Présentation de la base de données</h4>
+
+                <p>En regardant la base de données KDou, nous avons remarqué qu'elle est organisée en plusieurs tables. On y trouve notamment les clients, les commandes, les produits, les fournisseurs, les pays et les catégories.</p>
+
+                <p>La base utilise plusieurs éléments pour bien fonctionner :</p>
+
                 <ul class="liste_donnees_affichees">
-                    <li>Le nom de la société (Cli.Societe)</li>
-                    <li>Le contact (Cli.Contact)</li>
-                    <li>Le numéro de téléphone (Cli.Tel)</li>
-                    <li>L’adresse mail (Cli.MailCli)</li>
-                    <li>La ville (Cli.Ville)</li>
+                    <li>Chaque table possède une clé primaire qui permet de retrouver chaque élément sans le confondre avec un autre (CodeCli, RefProd, NoCommande, etc.).</li>
+                    <li>Les clés étrangères permettent de faire des liens entre les différentes tables, par exemple entre les produits et les fournisseurs.</li>
+                    <li>Les données sont réparties dans plusieurs tables pour éviter de répéter trop souvent les mêmes informations.</li>
                 </ul>
-                <p>En regardant la base de données, nous voyons que toutes ces données se trouve dans une seule [Clientele].</p>
-                <p>Il nous est seulement demandé que le client doit être situé à Paris, on peut simplement vérifier en regardant Cli.Ville dans la table [Clientele].</p>
-                <h5>Cette requête se présentera sous cette forme :</h5>
+
+                <p>Cette organisation permet de retrouver plus facilement les informations et de suivre les commandes et les produits.</p>
+
+                <h5>Présentation de quelques tables :</h5>
+
                 <div class="code_sql">
-                    <p>SELECT</p>
-                    <p class="niv1">Cli.Societe,</p>
-                    <p class="niv1">Cli.Contact,</p>
-                    <p class="niv1">Cli.Tel,</p>
-                    <p class="niv1">Cli.MailCli AS Mail,</p>
-                    <p class="niv1">Cli.Ville</p>
-                    <p>FROM</p>
-                    <p class="niv1">Clientele AS Cli</p>
-                    <p>WHERE</p>
-                    <p class="niv1">Cli.Ville LIKE "*Paris*"</p>
-                    <p>ORDER BY</p>
-                    <p class="niv1">Cli.Societe;</p>
+                    <p>SCHEMA RELATIONNEL GLOBAL</p>
+                    <p class="niv1">Clientele (<u>CodeCli</u>, Societe, Contact, NoPays, Ville, ...)</p>
+                    <p class="niv1">Produit (<u>RefProd</u>, NomProd, CoutAchat, #NoFour, #CodeCateg)</p>
+                    <p class="niv1">Commande (<u>NoCommande</u>, DateCde, #CodeCli, Port, AlivAv)</p>
+                    <p class="niv1">DetailCommande (<u>#NoCommande, #RefProd</u>, Quantité, Remise)</p>
                 </div>
-                <h5>La requête renverra :</h5>
-                <img src="assets/img/1_a.png" alt="Requête A">
-                <h4>B)</h4>
-                <p>Nous cherchons à afficher les produits venants des Etats-Unis coutant moins de 25€.</p>
-                <p>Pour cela, on affiche :</p>
+            </div>
+
+            <div class="presentations_requetes">
+                <h4>Numéro 2</h4>
+                <h4>B) Les problèmes trouvés dans les données</h4>
+
+                <p>En regardant les informations de la base, nous avons trouvé quelques erreurs et des données qui ne sont pas toujours bien écrites.</p>
+
+                <p>Voici les principaux problèmes :</p>
+
                 <ul class="liste_donnees_affichees">
-                    <li>Son nom (Pr.NomProd)</li>
-                    <li>Son prix (Pr.CoutAchat)</li>
-                    <li>Le fournisseur (F.Societe)</li>
-                    <li>La ville du fournisseur (F.Ville)</li>
+                    <li>Certains noms de villes ne sont pas écrits de la même façon. Par exemple : Besancon et Besançon.</li>
+                    <li>Certains pays ont plusieurs écritures différentes, comme USA, U.S.A et États-Unis.</li>
+                    <li>Nous avons aussi remarqué des erreurs dans certains identifiants, par exemple Folk0 à la place de Folko.</li>
+                    <li>Certaines remises semblent mal renseignées, comme 0,15 % à la place de 15 %.</li>
+                    <li>Il manque parfois des informations sur certains clients ou produits.</li>
                 </ul>
-                <p>Toutes ces différentes données sont séparées entre les tables [Fournisseur] et [Produit], il sera donc nécessaire de lier ces 2 tables à condition que :</p>
-                <ul class="liste_tables_liees">
-                    <li>F.NoFour = Pr.NoFour</li>
-                </ul>
-                <p>Maintenant, nous devons vérifier que le fournisseur vienne bien des États-Unis et que le prix de l’article est inferieur à 25€, cela peut se vérifier en regardant les attributs F.NoPays et Pr.CoutAchat.</p>
-                <p>Mais, si l’on résonne comme cela, nous devons connaitre le numéro de chaque pays et cela serai vraiment inconfortable.</p>
-                <p>Pour pallier ce problème, nous pouvons lier les tables [Pays] et [Fournisseur] pour :</p>
-                <ul class="liste_tables_liees">
-                    <li>Pa.NoPays = F.NoPays</li>
-                </ul>
-                <p>Et regarder Pa.PaysFR à la place de F.NoPays. (Nous choisissons Pa.PaysFR au lieu de Pa.PaysEN pour plus de confort étant donné que ce travail est en français)</p>
-                <h5>Cette requête se présentera sous cette forme :</h5>
+
+                <p>Ces erreurs peuvent rendre les recherches moins fiables et compliquer le travail de l'entreprise.</p>
+
+                <h5>Résumé des problèmes :</h5>
+
                 <div class="code_sql">
-                    <p>SELECT</p>
-                    <p class="niv1">Pr.NomProd,</p>
-                    <p class="niv1">Pr.CoutAchat,</p>
-                    <p class="niv1">F.Societe,</p>
-                    <p class="niv1">F.Ville</p>
-                    <p>FROM</p>
-                    <p class="niv1">Produit AS Pr,</p>
-                    <p class="niv1">Fournisseur AS F,</p>
-                    <p class="niv1">Pays AS Pa</p>
-                    <p>WHERE</p>
-                    <p class="niv1">F.NoFour = Pr.NoFour</p>
-                    <p class="niv1">AND Pa.NoPays = F.NoPays</p>
-                    <p class="niv1">AND Pr.CoutAchat < 25</p>
-                    <p class="niv1">Pa.PaysFR LIKE "*Etats-Unis*"</p>
-                    <p>ORDER BY</p>
-                    <p class="niv1">Pr.NomProd,</p>
-                    <p class="niv1">Pr.NoFour;</p>
+                    <p>PROBLEMES TROUVES</p>
+                    <p class="niv1">Livraison : certaines erreurs peuvent provoquer des problèmes de livraison</p>
+                    <p class="niv1">Ventes : les doublons peuvent fausser les résultats des ventes</p>
+                    <p class="niv1">Clients : certaines erreurs peuvent rendre le suivi des clients plus difficile</p>
                 </div>
-                <h5>La requête renverra :</h5>
-                <img src="assets/img/1_b.png" alt="Requête B">
-                <h4>C)</h4>
-                <p>Il nous est demandé d’afficher les produits de catégories viandes ou poisson coutant plus de 50€.</p>
-                <p>Pour cela, nous devrions afficher :</p>
+            </div>
+
+            <div class="presentations_requetes">
+                <h4>Numéro 3</h4>
+                <h4>C) Les premières recherches effectuées</h4>
+
+                <p>Nous avons réalisé quelques recherches dans la base de données pour mieux comprendre comment fonctionne KDou.</p>
+
+                <p>Nous avons notamment cherché :</p>
+
                 <ul class="liste_donnees_affichees">
-                    <li>Le nom du produit (Pr.NomProd)</li>
-                    <li>Son prix (Pr.CoutAchat)</li>
-                    <li>Sa catégorie (Cat.NomCateg)</li>
-                    <li>Son fournisseur (F.Societe)</li>
-                    <li>Son pays de provenance (Pa.PaysFR)</li>
+                    <li>Le nombre de fournisseurs qui se trouvent dans l'Union européenne.</li>
+                    <li>Les clients qui n'ont jamais passé de commande.</li>
+                    <li>Le nombre de clients qui habitent à Paris.</li>
                 </ul>
-                <p>Pour cela il nous faut lier les tables [Pays], [Fournisseur], [Produit] et [Categorie] avec :</p>
-                <ul class="liste_tables_liees">
-                    <li>Pa.NoPays = F.No.Pays</li>
-                    <li>F.NoFour = Pr.NoFour</li>
-                    <li>Pr.CodeCateg = Cat.CodeCateg</li>
-                </ul>
-                <p>On choisira d’afficher uniquement les produits pour lesquels Cat.NomCateg est égal à Viandes ou Poissons et que Pr.CoutAchat est supérieur à 50€</p>
-                <h5>On réalise la requête avec ceci :</h5>
+
+                <p>Ces recherches nous permettent de mieux connaître les clients et les fournisseurs de KDou. Elles peuvent aussi aider l'entreprise à mieux organiser ses livraisons.</p>
+
+                <h5>Quelques résultats obtenus :</h5>
+
                 <div class="code_sql">
-                    <p>SELECT</p>
-                    <p class="niv1">Pr.NomProd,</p>
-                    <p class="niv1">Pr.CoutAchat,</p>
-                    <p class="niv1">Cat.NomCateg,</p>
-                    <p class="niv1">F.Societe,</p>
-                    <p class="niv1">Pa.PaysFR</p>
-                    <p>FROM</p>
-                    <p class="niv1">Pays AS Pa,</p>
-                    <p class="niv1">Fournisseur AS F,</p>
-                    <p class="niv1">Produit AS Pr,</p>
-                    <p class="niv1">Categorie AS Cat</p>
-                    <p>WHERE</p>
-                    <p class="niv1">Pa.NoPays = F.NoPays</p>
-                    <p class="niv1">AND F.NoFour = Pr.NoFour</p>
-                    <p class="niv1">AND Pr.CodeCateg = Cat.CodeCateg</p>
-                    <p class="niv1">AND Pr.CoutAchat > 50</p>
-                    <p class="niv1">AND (Cat.NomCateg LIKE "*Viandes*"</p>
-                    <p class="niv1">OR Cat.NomCateg LIKE "*Poissons*")</p>
-                    <p>ORDER BY</p>
-                    <p class="niv1">Pr.NomProd,</p>
-                    <p class="niv1">Cat.NomCateg,</p>
-                    <p class="niv1">F.Societe;</p>
+                    <p>RESULTATS DES RECHERCHES</p>
+                    <p class="niv1">Fournisseurs dans l'Union européenne : 19</p>
+                    <p class="niv1">Clients qui n'ont jamais commandé : 2</p>
+                    <p class="niv1">Clients situés à Paris : 5</p>
                 </div>
-                <h5>La requête renverra :</h5>
-                <img src="assets/img/1_c.png" alt="Requête C">
-                <h4>D)</h4>
-                <p>Nous devons ici afficher les fournisseurs qui vendent de la viande ou du poisson.</p>
-                <p>Pour cela, il faudrait afficher :</p>
+            </div>
+
+            <div class="presentations_requetes">
+                <h4>Numéro 4</h4>
+                <h4>D) Nos idées pour améliorer la base de données</h4>
+
+                <p>Après avoir étudié la base de données, nous avons trouvé plusieurs choses qui pourraient être améliorées.</p>
+
+                <p>Voici nos principales idées :</p>
+
                 <ul class="liste_donnees_affichees">
-                    <li>Le nom de la société (F.Societe)</li>
-                    <li>Le contact (F.Contact)</li>
-                    <li>Le numéro de téléphone (F.Tel)</li>
-                    <li>La catégorie du produit (Cat.NomCateg)</li>
+                    <li>Utiliser des choix déjà préparés pour éviter les différences d'écriture dans les villes, les pays et les numéros de téléphone.</li>
+                    <li>Corriger les erreurs dans les identifiants et supprimer les doublons.</li>
+                    <li>Compléter les informations qui sont manquantes.</li>
+                    <li>Faire attention aux cases vides et aux valeurs comme NULL ou 0, car elles ne veulent pas dire la même chose.</li>
                 </ul>
-                <p>Il faut ensuite lier les tables [Produit], [Catégorie] et [Fournisseur] de sorte que :</p>
-                <ul class="liste_tables_liees">
-                    <li>Pr.CodeCateg = Cat.CodeCateg</li>
-                    <li>Pr.NoFour = F.NoFour</li>
-                </ul>
-                <p>Enfin, le plus important, il faut afficher uniquement si le produit fait partie de la catégorie des viandes ou des poissons.</p>
-                <h5>Cette requête se présentera sous cette forme :</h5>
+
+                <p>Ces changements permettraient d'avoir une base de données plus propre et plus facile à utiliser.</p>
+
+                <h5>Les actions à faire :</h5>
+
                 <div class="code_sql">
-                    <p>SELECT</p>
-                    <p class="niv1">F.Societe,</p>
-                    <p class="niv1">F.Contact,</p>
-                    <p class="niv1">F.Tel,</p>
-                    <p class="niv1">Cat.NomCateg</p>
-                    <p>FROM</p>
-                    <p class="niv1">Produit AS Pr,</p>
-                    <p class="niv1">Categorie AS Cat,</p>
-                    <p class="niv1">Fournisseur AS F</p>
-                    <p>WHERE</p>
-                    <p class="niv1">Pr.CodeCateg = Cat.CodeCateg</p>
-                    <p class="niv1">AND Pr.NoFour = F.NoFour</p>
-                    <p class="niv1">AND (Cat.NomCateg LIKE "*Viandes*"</p>
-                    <p class="niv1">OR Cat.NomCateg LIKE "*Poissons*")</p>
-                    <p>ORDER BY</p>
-                    <p class="niv1">F.Societe;</p>
+                    <p>NOS PROPOSITIONS</p>
+                    <p class="niv1">1. Mettre des règles pour éviter certaines erreurs de saisie</p>
+                    <p class="niv1">2. Corriger les anciennes erreurs et supprimer les doublons</p>
+                    <p class="niv1">3. Expliquer aux utilisateurs comment bien remplir les informations</p>
                 </div>
-                <h5>La requête renverra :</h5>
-                <img src="assets/img/1_d.png" alt="Requête D">
-            </div>
-            <div class="presentations_requetes">
-                <h4>Numero 2</h4>
-            </div>
-            <div class="presentations_requetes">
-                <h4>Numero 3</h4>
-            </div>
-            <div class="presentations_requetes">
-                <h4>Numero 4</h4>
-            </div>
-            <div class="presentations_requetes">
-                <h4>Numero 5</h4>
             </div>
         </main>
+
         <footer>
             <div class="footer_contenu">
                 <div class="footer_colonne">
@@ -196,6 +139,7 @@
                     <p>Projet KDou</p>
                     <p>SAÉ1_04 - BUT Informatique</p>
                 </div>
+
                 <div class="footer_colonne">
                     <h3>Navigation</h3>
                     <p><a href="principale.html">Accueil</a></p>
@@ -203,14 +147,15 @@
                     <p><a href="numero2.html">Deuxième partie</a></p>
                     <p><a href="numero3.html">Troisième partie</a></p>
                 </div>
+
                 <div class="footer_colonne">
                     <h3>Notre équipe</h3>
                     <p>Raphaël T.</p>
                     <p>Rayan A.</p>
                     <p>Brayan A.</p>
-                    <p>Dominique F.</p>
                 </div>
             </div>
+
             <div class="footer_fin">
                 <p>© 2026 - Projet KDou | SAÉ1_04</p>
             </div>
