@@ -52,7 +52,7 @@
                     <p class="niv1">Cli.Societe;</p>
                 </div>
                 <h5>La requête renverra :</h5>
-                <img src="assets/img/1_a.png" alt="Requête A">
+                <img src="assets/img/1_a.png" alt="Requête A" class="image_a">
                 <h4>B)</h4>
                 <p>Nous cherchons à afficher les produits venants des Etats-Unis coutant moins de 25€.</p>
                 <p>Pour cela, on affiche :</p>
@@ -94,7 +94,7 @@
                     <p class="niv1">Pr.NoFour;</p>
                 </div>
                 <h5>La requête renverra :</h5>
-                <img src="assets/img/1_b.png" alt="Requête B">
+                <img src="assets/img/1_b.png" alt="Requête B" class="image_b">
                 <h4>C)</h4>
                 <p>Il nous est demandé d’afficher les produits de catégories viandes ou poisson coutant plus de 50€.</p>
                 <p>Pour cela, nous devrions afficher :</p>
@@ -138,7 +138,7 @@
                     <p class="niv1">F.Societe;</p>
                 </div>
                 <h5>La requête renverra :</h5>
-                <img src="assets/img/1_c.png" alt="Requête C">
+                <img src="assets/img/1_c.png" alt="Requête C" class="image_c">
                 <h4>D)</h4>
                 <p>Nous devons ici afficher les fournisseurs qui vendent de la viande ou du poisson.</p>
                 <p>Pour cela, il faudrait afficher :</p>
@@ -174,7 +174,7 @@
                     <p class="niv1">F.Societe;</p>
                 </div>
                 <h5>La requête renverra :</h5>
-                <img src="assets/img/1_d.png" alt="Requête D">
+                <img src="assets/img/1_d.png" alt="Requête D" class="image_d">
                 <h4>E)</h4>
                 <p>Pour cette requête, il faudra afficher :</p>
                 <ul class="liste_donnees_affichees">
@@ -216,7 +216,7 @@
                     <p class="niv1">F.Societe;</p>
                 </div>
                 <h5>La requête renverra :</h5>
-                <img src="assets/img/1_e.png" alt="Requête E">
+                <img src="assets/img/1_e.png" alt="Requête E" class="image_e">
                 <h4>F)</h4>
                 <p>La tâche qui nous est demandé ici est assez floue.</p>
                 <p>Mais afin de répondre au mieux à la problématique je vais choisir arbitrairement les données qui devront être sélectionnées, j’ai choisi large afin d’éviter de rater un produit qui pourrait convenir au risque de devoir filtrer un peu.</p>
@@ -258,15 +258,15 @@
                     <p class="niv1">F.Societe;</p>
                 </div>
                 <h5>La requête renverra :</h5>
-                <img src="assets/img/1_f.png" alt="Requête F">
+                <img src="assets/img/1_f.png" alt="Requête F" class="image_f">
                 <h4>G)</h4>
                 <p>Pour trouver les commandes de Max Deschamps, il nous faut effectuer une sous requête parcourant tous les clients et affichant le numéro client (Cli.CodeCli) s’ils s’appellent Max Deschamps.</p>
                 <p>Ensuite, notre requête devra afficher :</p>
                 <ul class="liste_donnees_affichees">
-                    <li>Le numéro de commande(Com.N° commande)</li>
-                    <li>La date de commande(Com.DateCde)</li>
-                    <li>Le nom du produit(Pr.NomProd) </li>
-                    <li>Sa quantité(D.Quantité) </li>
+                    <li>Le numéro de commande (Com.N° commande)</li>
+                    <li>La date de commande (Com.DateCde)</li>
+                    <li>Le nom du produit (Pr.NomProd)</li>
+                    <li>Sa quantité (D.Quantité)</li>
                 </ul>
                 <p>Nous devrons ensuite lier les tables [Clientele], [Commande], [DetailCommande] et [Produit] aux moyens de :</p>
                 <ul class="liste_tables_liees">
@@ -274,18 +274,320 @@
                     <li>Com.N° Commande = D.N° Commande </li>
                     <li>D.Réf produit = Pr.RefProd</li>
                 </ul>
+                <p>Enfin, pour ne sélectionner que les 3 dernières commandes, nous devons réaliser une autre sous requête qui vérifiera s’il y a ou non 3 commandes plus récentes.</p>
+                <p>Cette requête affichera donc les commandes ordonnées par numéro de commandes et par date</p>
+                <h5>La requête :</h5>
+                <div class="code_sql">
+                    <p>SELECT</p>
+                    <p class="niv1">Com.[N° commande],</p>
+                    <p class="niv1">Com.DateCde AS Date de la Commande,</p>
+                    <p class="niv1">Pr.NomProd AS Produit,</p>
+                    <p class="niv1">D.Quantité</p>
+                    <p>FROM</p>
+                    <p class="niv1">Clientele AS Cli,</p>
+                    <p class="niv1">Commande AS Com,</p>
+                    <p class="niv1">DetailCommande AS D,</p>
+                    <p class="niv1">Produit AS Pr</p>
+                    <p>WHERE</p>
+                    <p class="niv1">Cli.CodeCli = Com.CodeCli</p>
+                    <p class="niv1">AND Com.[N° commande] = D.[N° commande]</p>
+                    <p class="niv1">AND D.[Réf produit] = Pr.RefProd</p>
+                    <p class="niv1">AND Cli.CodeCli LIKE (SELECT</p>
+                    <p class="niv3">Cli2.CodeCli</p>
+                    <p class="niv2">FROM</p>
+                    <p class="niv3">Clientele AS Cli2</p>
+                    <p class="niv2">WHERE</p>
+                    <p class="niv3">Cli2.Contact = "Max Deschamps")</p>
+                    <p class="niv1">AND (SELECT COUNT(*)</p>
+                    <p class="niv2">FROM</p>
+                    <p class="niv3">Commande AS Com2</p>
+                    <p class="niv2">WHERE</p>
+                    <p class="niv3">Com2.CodeCli = Com.CodeCli</p>
+                    <p class="niv3">AND (Com2.DateCde > Com.DateCde</p>
+                    <p class="niv3">OR (Com2.DateCde = Com.DateCde</p>
+                    <p class="niv3">AND Com2.[N° commande] > Com.[N° commande]))</p>
+                    <p class="niv1">) < 3</p>
+                    <p>GROUP BY</p>
+                    <p class="niv1">Com.[N° commande],</p>
+                    <p class="niv1">Com.DateCde,</p>
+                    <p class="niv1">Pr.NomProd,</p>
+                    <p class="niv1">D.Quantité</p>
+                    <p>ORDER BY</p>
+                    <p class="niv1">Com.DateCde DESC;</p>
+                </div>
+                <h5>La requête renverra :</h5>
+                <img src="assets/img/1_g.png" alt="Requête G" class="image_g">
+                <h4>H)</h4>
+                <p>Afin d’afficher les fournisseurs ne proposant que des desserts, il nous faudra créer une sous requête affichante, au contraire, tous les fournisseurs qui vendent autre chose que des desserts.</p>
+                <p>On créera cette requête en vérifiant pour chaque produit s’il est dans la catégorie des desserts et on l’affiche son fournisseur si ce n’est pas le cas.</p>
+                <p>On affichera :</p>
+                <ul class="liste_donnees_affichees">
+                    <li>Le nom des fournisseurs (F.Societe)</li>
+                    <li>Leur contact (F.Contact)</li>
+                    <li>Leur numéro (F.Tel)</li>
+                </ul>
+                <p>Il nous faudra vérifier pour chaque fournisseur s’il fait parti ou non du tableau crée par la sous requête.</p>
+                <h5>La requête prendra cette forme :</h5>
+                <div class="code_sql">
+                    <p>SELECT</p>
+                    <p class="niv1">F.Societe,</p>
+                    <p class="niv1">F.Contact,</p>
+                    <p class="niv1">F.Tel</p>
+                    <p>FROM</p>
+                    <p class="niv1">Fournisseur AS F</p>
+                    <p>WHERE</p>
+                    <p class="niv1">F.NoFour NOT IN (SELECT</p>
+                    <p class="niv3">F2.NoFour</p>
+                    <p class="niv2">FROM</p>
+                    <p class="niv3">Fournisseur AS F2,</p>
+                    <p class="niv3">Produit AS Pr,</p>
+                    <p class="niv3">Categorie AS Cat</p>
+                    <p class="niv2">WHERE</p>
+                    <p class="niv3">F.NoFour = Pr.NoFour</p>
+                    <p class="niv3">AND Pr.CodeCateg = Cat.CodeCateg</p>
+                    <p class="niv3">AND NomCateg NOT LIKE "*dessert*"</p>
+                    <p class="niv1">)</p>
+                    <p>ORDER BY</p>
+                    <p class="niv1">F.Societe;</p>
+                </div>
+                <h5>La requête renverra :</h5>
+                <img src="assets/img/1_h.png" alt="Requête H" class="image_h">
+                <h4>I)</h4>
+                <p>Ici, nous recherchons les fournisseurs étrangers ne possédant aucune clé étrangère dans la table [Produit].</p>
+                <p>Nous allons afficher :</p>
+                <ul class="liste_donnees_affichees">
+                    <li>Le nom du fournisseur (F.Societe)</li>
+                    <li>Son contact (F.Contact)</li>
+                    <li>Son numéro (F.Tel)</li>
+                    <li>Son pays (P.PaysFR)</li>
+                </ul>
+                <p>Pour cela, il nous faut lier les tables [Fournisseur], [Produit] et [Pays] tel que :</p>
+                <ul class="liste_tables_liees">
+                    <li>Pr.NoFour = F.NoFour</li>
+                    <li>F.NoPays = P.NoPays</li>
+                </ul>
+                <p>Il faut aussi préciser que l’usage d’un LEFT JOIN est nécessaire dans ce cas puisqu’il est question de fournisseurs ne possédants pas de produits.</p>
+                <h5>Une telle requête s’écrit de cette manière :</h5>
+                <div class="code_sql">
+                    <p>SELECT</p>
+                    <p class="niv1">F.Societe,</p>
+                    <p class="niv1">F.Contact,</p>
+                    <p class="niv1">F.Tel,</p>
+                    <p class="niv1">Pa.PaysFR</p>
+                    <p>FROM</p>
+                    <p class="niv1">(Pays AS Pa</p>
+                    <p class="niv1">INNER JOIN Fournisseur AS F</p>
+                    <p class="niv1">ON F.NoPays = Pa.NoPays)</p>
+                    <p class="niv1">LEFT JOIN Produit AS Pr</p>
+                    <p class="niv1">ON Pr.NoFour = F.NoFour</p>
+                    <p>WHERE</p>
+                    <p class="niv1">Pr.NoFour IS NULL</p>
+                    <p class="niv1">AND Pa.PaysFR NOT LIKE "*France*"</p>
+                    <p>ORDER BY</p>
+                    <p class="niv1">F.Societe,</p>
+                    <p class="niv1">Pa.PaysFR</p>
+                </div>
+                <h5>La requête renverra :</h5>
+                <img src="assets/img/1_i.png" alt="Requête I" class="image_i">
+                <h4>J)</h4>
+                <p>Même si cette question me parait obscure, je vais partir du principe qu’il nous est demandé d’afficher tous les couples de clients qui peuvent exister dans la base de données parmi ceux qui sont situés à Paris.</p>
+                <p>J’ai choisi d’afficher les informations par paires :</p>
+                <ul class="liste_donnees_affichees">
+                    <li>Les noms des clients (Cli1.Societe et Cli2.Societe)</li>
+                    <li>Leurs contact (Cli1.Contact et Cli2.Contact)</li>
+                    <li>Leur mail (Cli1.MailCli et Cli2.MailCli)</li>
+                    <li>Leur numéro de téléphone (Cli1.Tel et Cli2.Tel)</li>
+                </ul>
+                <p>Il nous suffira alors de vérifier, pour chaque client, de vérifier s’il se trouve à Paris pour afficher les couples.</p>
+                <p>On comparera aussi les codes clients pour éviter les doublons ainsi que des couples déjà affichés, le client de gauche aura toujours un code client plus petit que celui de droite.</p>
+                <h5>Voici le code de la requête :</h5>
+                <div class="code_sql">
+                    <p>SELECT</p>
+                    <p class="niv1">Cli1.Societe,</p>
+                    <p class="niv1">Cli2.Societe,</p>
+                    <p class="niv1">Cli1.Contact,</p>
+                    <p class="niv1">Cli2.Contact,</p>
+                    <p class="niv1">Cli1.MailCli,</p>
+                    <p class="niv1">Cli2.MailCli,</p>
+                    <p class="niv1">Cli1.Tel,</p>
+                    <p class="niv1">Cli2.Tel</p>
+                    <p>FROM</p>
+                    <p class="niv1">Clientele AS Cli1,</p>
+                    <p class="niv1">Clientele AS Cli2</p>
+                    <p>WHERE</p>
+                    <p class="niv1">Cli1.CodeCli < Cli2.CodeCli</p>
+                    <p class="niv1">AND Cli1.Ville LIKE "*Paris*"</p>
+                    <p class="niv1">AND Cli2.Ville LIKE "*Paris*"</p>
+                    <p>ORDER BY</p>
+                    <p class="niv1">Cli1.Societe;</p>
+                </div>
+                <h5>La requête renverra :</h5>
+                <img src="assets/img/1_j.png" alt="Requête J" class="image_j">
             </div>
             <div class="presentations_requetes">
                 <h4>Numero 2</h4>
+                <p>Pour cette requête, il faudra afficher le chiffre d’affaires total que l’entreprise a généré avec les fournisseurs européens.</p>
+                <p>Pour cela il nous faudra afficher :</p>
+                <ul class="liste_donnees_affichees">
+                    <li>Le chiffre d’affaires total (CA_fournisseurs_UE)</li>
+                </ul>
+                <p>Et cela au moyen de la fonction SUM qui fera la somme de l’argent gagné pour chaque produit venant des fournisseurs européens.</p>
+                <p>L’argent gagné par produit sera calculé en multipliant le prix de vente du produit pas la quantité achetée et par sa remise, on arrondira le résultat au moyen de la fonction ROUND qui nous permettra d’arrondir aux centièmes arithmétiques.</p>
+                <p>Nous devrons lier les tables [Pays], [Fournissseur], [Produit] et [DetailCommande] de sorte que :</p>
+                <ul class="liste_tables_liees">
+                    <li>Pr.RefProd = D.Réf produit</li>
+                    <li>F.NoFour = Pr.NoFour</li>
+                    <li>Pa.NoPays = F.NoPays</li>
+                </ul>
+                <p>Il nous faudra aussi vérifier si le fournisseur vient d’un pays de l’UE.</p>
+                <p>Voici la requête :</p>
+                <div class="code_sql">
+                    <p>SELECT</p>
+                    <p class="niv1">Round(Sum(D.Quantité * CoutAchat * [Remise (%)]), 2)</p>
+                    <p class="niv1">AS CA_fournisseur_UE</p>
+                    <p>FROM</p>
+                    <p class="niv1">Pays AS Pa,</p>
+                    <p class="niv1">Fournisseur AS F,</p>
+                    <p class="niv1">Produit AS Pr,</p>
+                    <p class="niv1">DetailCommande AS D</p>
+                    <p>WHERE</p>
+                    <p class="niv1">Pr.RefProd = D.[Réf produit]</p>
+                    <p class="niv1">AND F.NoFour = Pr.NoFour</p>
+                    <p class="niv1">AND Pa.NoPays = F.NoPays</p>
+                    <p class="niv1">AND Pa.UE LIKE "*Membre*"</p>
+                </div>
+                <h5>La requête renverra :</h5>
+                <img src="assets/img/2.png" alt="Requête 2" class="image_2">
             </div>
             <div class="presentations_requetes">
                 <h4>Numero 3</h4>
+                <p>Pour réaliser cette requête il faudra afficher le chiffre d’affaires total que l’entreprise a généré avec les produits de types desserts ou boissons.</p>
+                <p>Pour cela il nous faut afficher :</p>
+                <ul class="liste_donnees_affichees">
+                    <li>L’année (Année)</li>
+                    <li>Le chiffre d’affaires total (CA_Categ_dessert_et_boisson)</li>
+                </ul>
+                <p>On fera cela avec SUM qui fera la somme de l’argent gagné pour chaque produit étant dans les catégories desserts ou boissons</p>
+                <p>Nous devrons lier les tables [Categorie], [Produit], [Commande] et [DetailCommande] de sorte que :</p>
+                <ul class="liste_tables_liees">
+                    <li>Pr.CodeCateg = Cat.CodeCateg</li>
+                    <li>Com.N° commande = D.N° commande</li>
+                    <li>Pr.RefProd = D.Réf produit</li>
+                </ul>
+                <p>Nous devrons aussi vérifier la catégorie des différents produits et grouper les données pour avoir les données annuelles à l’aide de le fonction YEAR.</p>
+                <p>La requête se présentera sous la forme :</p>
+                <div class="code_sql">
+                    <p>SELECT</p>
+                    <p class="niv1">Year(Com.DateCde) AS Année,</p>
+                    <p class="niv1">Round(Sum(Pr.CoutAchat * D.Quantité * [Remise (%)]), 2)</p>
+                    <p class="niv1">AS CA_Categ_dessert_et_boisson</p>
+                    <p>FROM</p>
+                    <p class="niv1">Categorie AS Cat,</p>
+                    <p class="niv1">Produit AS Pr,</p>
+                    <p class="niv1">Commande AS Com,</p>
+                    <p class="niv1">DetailCommande AS D</p>
+                    <p>WHERE</p>
+                    <p class="niv1">Pr.CodeCateg = Cat.CodeCateg</p>
+                    <p class="niv1">AND Com.[N° commande] = D.[N° commande]</p>
+                    <p class="niv1">AND Pr.RefProd = D.[Réf produit]</p>
+                    <p class="niv1">AND Cat.NomCateg IN ("Dessert", "Boissons")</p>
+                    <p>GROUP BY</p>
+                    <p class="niv1">Com.DateCde</p>
+                    <p>ORDER BY</p>
+                    <p class="niv1">Year(Com.DateCde)</p>
+                </div>
+                <h5>La requête renverra :</h5>
+                <img src="assets/img/3.png" alt="Requête 3" class="image_3">
             </div>
             <div class="presentations_requetes">
                 <h4>Numero 4</h4>
+                <p>Dans cette requête, il sera nécessaire d’afficher :</p>
+                <ul class="liste_donnees_affichees">
+                    <li>Le nom des produits (Pr.NomProd)</li>
+                    <li>Le nom de leur fournisseur (F.Societe)</li>
+                    <li>Leur contact (F.Contact)</li>
+                    <li>Leur numéro de téléphone (F.Tel)</li>
+                </ul>
+                <p>Il nous faut lier les tables [Fournisseur], [Produit] et [Categorie] tel que :</p>
+                <ul class="liste_tables_liees">
+                    <li>F.NoFour = Pr.NoFour</li>
+                    <li>P.CodeCateg = Cat.CodeCateg</li>
+                </ul>
+                <p>La requête se présentera sous la façon suivante :</p>
+                <div class="code_sql">
+                    <p>SELECT</p>
+                    <p class="niv1">Pr.NomProd,</p>
+                    <p class="niv1">F.Societe,</p>
+                    <p class="niv1">F.Contact,</p>
+                    <p class="niv1">F.Tel</p>
+                    <p>FROM</p>
+                    <p class="niv1">Fournisseur AS F,</p>
+                    <p class="niv1">Produit AS Pr,</p>
+                    <p class="niv1">Categorie AS Cat</p>
+                    <p>WHERE</p>
+                    <p class="niv1">F.NoFour = Pr.NoFour</p>
+                    <p class="niv1">AND Pr.CodeCateg = Cat.CodeCateg</p>
+                    <p class="niv1">AND Cat.NomCateg LIKE "*Viandes*"</p>
+                    <p class="niv1">AND Pr.RefProd NOT IN (SELECT</p>
+                    <p class="niv3">D.[Réf produit]</p>
+                    <p class="niv2">FROM</p>
+                    <p class="niv3">DetailCommande AS D)</p>
+                    <p>ORDER BY</p>
+                    <p class="niv1">Pr.NomProd,</p>
+                    <p class="niv1">F.Societe;</p>
+                </div>
+                <h5>La requête renverra :</h5>
+                <img src="assets/img/4.png" alt="Requête 4" class="image_4">
             </div>
             <div class="presentations_requetes">
                 <h4>Numero 5</h4>
+                <p>Afin de réaliser cette requête, il nous faudra afficher :</p>
+                <ul class="liste_donnees_affichees">
+                    <li>Le nom du client (Cli.Societe)</li>
+                    <li>Le nom de son client partenaire (CliP.Societe)</li>
+                    <li>Le nombre de commandes que possèdent les 2 clients (NbrCommandes et NbrCommandesPilote)</li>
+                </ul>
+                <p>Il nous faudra aussi lier les tables [Clientele], [Clientele(Pilote)], [Commande] et [Commande(Pilote)] tel que :</p>
+                <ul class="liste_tables_liees">
+                    <li>Cli.CodeCliPart = CliP.CodeCli</li>
+                    <li>ComP.CodeCli = CliP.CodeCli</li>
+                    <li>Com.CodeCli = Cli.CodeCli</li>
+                </ul>
+                <p>Il nous faudra vérifier que les codes clients soient différent pour éviter les doublons et vérifier que les nombres de commandes soient les mêmes pour les 2 clients</p>
+                <p>La requête :</p>
+                <div class="code_sql">
+                    <p>SELECT</p>
+                    <p class="niv1">Cli.Societe, </p>
+                    <p class="niv1">CliP.Societe AS ClientPilote,</p>
+                    <p class="niv1">(SELECT COUNT(*) FROM AS Com WHERE Com.CodeCli = Cli.CodeCli)</p>
+                    <p class="niv1">AS NbrCommandes,</p>
+                    <p class="niv1">(SELECT COUNT(*) FROM Commande AS ComP</p>
+                    <p class="niv1">WHERE</p>
+                    <p class="niv2">ComP.CodeCli = CliP.CodeCli)</p>
+                    <p class="niv2">AS NbrCommandesPilotes</p>
+                    <p>FROM</p>
+                    <p class="niv1">Clientele AS Cli,</p>
+                    <p class="niv1">Clientele AS CliP</p>
+                    <p>WHERE</p>
+                    <p class="niv1">Cli.CodeCliPart = CliP.CodeCli</p>
+                    <p class="niv1">AND Cli.CodeCli <> CliP.CodeCli</p>
+                    <p class="niv1">AND (SELECT</p>
+                    <p class="niv3">COUNT(*)</p>
+                    <p class="niv2">FROM</p>
+                    <p class="niv3">Commande AS Com</p>
+                    <p class="niv2">WHERE</p>
+                    <p class="niv3">Com.CodeCli = Cli.CodeCli) = (SELECT</p>
+                    <p class="niv5">COUNT(*)</p>
+                    <p class="niv4">FROM</p>
+                    <p class="niv5">Commande AS ComP</p>
+                    <p class="niv4">WHERE</p>
+                    <p class="niv5">ComP.CodeCli = CliP.CodeCli);</p>
+                    <p>ORDER BY</p>
+                    <p class="niv1">Cli.Societe</p>
+                    <p class="niv1">CliP.Societe</p>
+                </div>
+                <h5>La requête renverra :</h5>
+                <img src="assets/img/5.png" alt="Requête 5" class="image_5">
             </div>
         </main>
         <footer>
