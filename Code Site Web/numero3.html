@@ -1,52 +1,158 @@
 <!DOCTYPE html>
 <html lang="fr">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title> Rapport de la base de données KDou dans le cadre de la SAÉ1_04</title>
-        <link rel="stylesheet" href="assets/CSS/style.css"> <!--Lie au CSS-->
-    </head>
-    <body>
-        <header>
-            <nav class="navigation">
-                <label for="burger">☰</label> <!--Pour la liste à roulement pour mobile-->
-                <input type="checkbox" id="burger">
-                <ul class="menu_navigation"> <!--Pour afficher tou les liens de navigation principaux-->
-                    <li><a href="principale.html">Accueil</a></li>
-                    <li><a href="numero1.html">Première partie</a></li>
-                    <li><a href="numero2.html">Deuxième partie</a></li>
-                    <li><a href="numero3.html">Troisième partie</a></li>
-                </ul>
-            </nav>
-        </header>
-        <main>
-            
-        </main>
-        <footer>
-            <div class="footer_contenu">
-                <div class="footer_colonne">
-                    <h3>À propos</h3>
-                    <p>Projet KDou</p>
-                    <p>SAÉ1_04 - BUT Informatique</p>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Troisième partie</title>
+    <link rel="stylesheet" href="Assets/CSS/style-commun.css">
+    <link rel="stylesheet" href="Assets/CSS/mission3/stylemission3.css">
+</head>
+
+<body>
+<header>
+    <nav class="navigation">
+        <label for="burger">☰</label> <!--Pour la liste à roulement pour mobile-->
+        <input type="checkbox" id="burger">
+        <ul class="menu">
+            <li><a href="principale.html">Accueil</a></li>
+            <li><a href="numero1.html">Première partie</a></li>
+            <li><a href="numero2.html">Deuxième partie</a></li>
+            <li><a href="numero3.html">Troisième partie</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+     <h1>Présentation</h1>
+            <section id="presentation">
+                <h2>Présentation du devoir KDou : Proposition d’indicateur </h2>
+                <div class="auteurs">
+                <div>Par : </div><div>Brayan A.</div><div>Rayan A.</div><div>Raphaël T</div>
                 </div>
-                <div class="footer_colonne">
-                    <h3>Navigation</h3>
-                    <p><a href="principale.html">Accueil</a></p>
-                    <p><a href="numero1.html">Première partie</a></p>
-                    <p><a href="numero2.html">Deuxième partie</a></p>
-                    <p><a href="numero3.html">Troisième partie</a></p>
-                </div>
-                <div class="footer_colonne">
-                    <h3>Notre équipe</h3>
-                    <p>Raphaël T.</p>
-                    <p>Rayan A.</p>
-                    <p>Brayan A.</p>
-                    <p>Dominique F.</p>
-                </div>
-            </div>
-            <div class="footer_fin">
-                <p>© 2026 - Projet KDou | SAÉ1_04</p>
-            </div>
-        </footer>
-    </body>
-</html>
+            </section>
+    
+    <article>
+        <h3>
+            Enoncé 1: Lister les produits qui sont situés dans la zone européenne
+        </h3>
+        <section class="interet">
+            <h5>Interet :</h5>
+            <p>
+                Il serait intéressant de regarder si l’entreprise Kdou est
+                écoresponsable car c’est l’un de ses objectifs finals.
+                Comme Kdou est une entreprise francaise, les produits européens
+                sont donc + avantageux car nécessite - de cout de transport
+                ce qui réduit l'empreinte carbone lié au transport.
+                Cela correspond à l'objectif stratégique de développement
+                durable de l'entreprise.
+            </p>
+        </section>
+
+        <section class="requete-sql">
+            <h5>Requête SQL :</h5>
+            <pre><code>
+SELECT Pays.PaysFR AS Pays_Fournisseur,prod.Nomprod AS Nom_produit 
+FROM (Produit AS prod INNER JOIN Fournisseur AS Four ON prod.Nofour = 
+Four.Nofour)INNER JOIN Pays On Four.NoPays = Pays.NoPays  
+WHERE UE = "Membre" 
+ORDER BY Pays.PaysFR 
+            </code></pre>
+        </section>
+
+        <section class="explication">
+            <h5>Conception :</h5>
+            <p>D’abord, il faut faire 2 jointures pour avoir les données 
+entre le pays, le fournisseur, et le produit. Ensuite, il faut filtrer selon 
+les produits européens avec une WHERE 
+Enfin on fait un tri pour faciliter la lecture avec un ORDER BY. 
+On décidera d’afficher le Nom du produit + Le pays d’origine de 
+son fournisseur </p>
+        </section>
+
+        <section class="resultat">
+            <h5>Résultat:</h5>
+            <img src="Assets/CSS/mission3/image/indicmatthieu.png" alt="extrait liste de produits européeens">
+        </section>
+    </article>
+    <article>
+        <h3>
+            Enoncé 2: Lister les produits qui coutent plus de 30 euro
+        </h3>
+        <section class="interet">
+            <h5>Interet :</h5>
+            <p>
+                Selon moi, une requête qui serait intéressante serai celle qui donne tous les produits coutant plus de 30€, cette requête pourrait permettre à l’entreprise de réfléchir çà son offre commerciale, elle pourrait voir les produits les plus intéressants à vendre pour un meilleur chiffre d’affaires.
+                On groupera les produits par leurs prix et les organiserons dans l’ordre décroissant.
+                On y affichera le prix du produit(Pr.CoutAchat), son nom(Pr.NomProd), sa catégorie(Cat.NomCateg), son fournisseur(F.Societe) ainsi que son contact(F.Contact) et son numéro de téléphone(F.Tel).
+                Pour cela, on liera les tables [Produit], [Categorie] et [Fournisseur] tel que Pr.NoFour = F.NoFour et Pr.CodeCateg = Cat.CodeCateg.
+            </p>
+        </section>
+
+        <section class="requete-sql">
+            <h5>Requête SQL :</h5>
+            <pre><code>
+SELECT Pr.CoutAchat, Pr.NomProd, Cat.NomCateg,
+F.Societe, F.Contact, F.Tel
+FROM Produit AS Pr, Categorie AS Cat, Fournisseur AS F
+WHERE Pr.CoutAchat > 30 AND Pr.NoFour = F.NoFour AND Pr.CodeCateg = Cat.CodeCateg
+ORDER BY Pr.CoutAchat DESC;
+            </code></pre>
+        </section>
+        <section class="resultat">
+            <h5>Résultat:</h5>
+            <img src="Assets/CSS/mission3/image/Collé 04-11-2026 à 18.34.10.png" alt="extrait liste de produits de plus de 30€">
+        </section>
+    </article>
+    <article>
+        <h3>
+            Enoncé : renvoyer les chiffres d’affaires par pays fournisseur 
+        </h3>
+        <section class="interet">
+            <h5>Interet :</h5>
+            <p>
+                ?????
+            </p>
+        </section>
+
+        <section class="requete-sql">
+            <h5>Requête SQL :</h5>
+            <pre><code>
+                SELECT 
+    Sub.PaysFR AS Pays_Fournisseur, 
+    COUNT(Sub.[N° commande]) AS Nb_Commandes, 
+    SUM(Sub.Port) AS Total_Frais_Port
+FROM (
+    SELECT DISTINCT 
+        Pa.PaysFR, 
+        C.[N° commande], 
+        C.Port
+    FROM 
+        Pays AS Pa, 
+        Fournisseur AS F, 
+        Produit AS Pr, 
+        DetailCommande AS DC, 
+        Commande AS C
+    WHERE 
+        Pa.NoPays = F.NoPays
+        AND F.NoFour = Pr.NoFour
+        AND Pr.RefProd = DC.[Réf produit]
+        AND DC.[N° commande] = C.[N° commande]
+) AS Sub
+GROUP BY 
+    Sub.PaysFR
+ORDER BY 
+    SUM(Sub.Port) DESC;
+
+            </code></pre>
+        </section>
+        <section class="resultat">
+            <h5>Résultat:</h5>
+            <img src="Assets/CSS/mission3/image/Collé 04-11-2026 à 18.42.14.png" alt="extrait liste de produits de plus de 30€">
+        </section>
+    </article>
+    <footer>
+        <p> SAE S1.04 - KDou Business </p>
+        <p>Raphaël T. - Rayan A. - Brayan A.</p>
+    </footer>
+</body>
