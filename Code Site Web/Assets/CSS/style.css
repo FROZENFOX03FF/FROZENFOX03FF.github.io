@@ -5,6 +5,36 @@
     --couleur1: rgb(158, 78, 173);
 }
 
+.sommaire {
+    position: fixed;/*Fixe la barre même au défilement*/
+    left: 3px;/*Place la bare à gauche*/
+    top: 60px;/*Laisse un espace pour rester sous le nav*/
+    width: 200px;/*Définit la largeur de la barre*/
+    background-color: var(--couleur-nav);/*Définit la couleur de la barre*/
+    border-radius: 15px;/*Arrondit les bords de la barre*/
+    z-index: 90;
+    border: 5px solid var(--couleur1);/*Ajoute un contour à la barre*/
+    box-sizing: border-box;/*Supprime l'espace autour de la box*/
+}
+
+.sommaire h3 {
+    color: var(--couleur-texte1);/*Modifie la couleur du titre*/
+    text-align: center;/*Centre le titre au millieu de la barre*/
+}
+
+.menu_sommaire {
+    list-style: none;
+}
+
+.menu_sommaire a {
+    color: var(--couleur-texte1);/*Modifie la couleur du texte*/
+    text-decoration: none;/*Supprime le soulignement*/
+}
+
+.menu_sommaire a:hover {
+    color: var(--couleur1);
+}
+
 main {
     background-color: var(--couleur1);/*Définit la couleur du main*/
     padding: 60px 30px 80px 30px;/*Ajoute de l'espace interieur en haut, à droite, en bas et à gauche*/
@@ -86,7 +116,6 @@ html, body {
     gap: 30px;/*Ajoute un espace entre chaques éléments*/
     list-style: none;/*Efface les puces de la liste*/
     margin: 0;/*Supprime les marges exterieures*/
-
 }
 
 .menu_navigation a { /*Tout les liens du nav*/
@@ -150,6 +179,14 @@ footer {
     margin-top: 10px;/*Réduit l'espace autour du texte*/
 }
 
+.interet p {
+    color: var(--couleur-texte1);/*Change la couleur du texte*/
+}
+
+.requete-sql code {
+    color: var(--couleur-texte1);/*Change la couleur du texte*/
+}
+
 @media screen and (max-width: 768px){/*Décrit les changement pour mobiles*/
     .navigation label {
         display: block;/*Affiche le symbole burger*/
@@ -164,6 +201,22 @@ footer {
     #burger:checked ~ .menu_navigation {/*Lorsque la CheckBox est cochée*/
         display: flex;/*Affiche le menu lorsque CheckBox cochée*/
     }
+
+    .sommaire {
+        width: 100%;/*Prend toute la largeur*/
+        margin-top: -6px;/*Rapproche le sommaire du nav*/
+    }
+
+
+    .sommaire h3 {
+        display: none;/*Cache le titre*/
+    }
+
+    .menu_sommaire {
+        display: flex;/*Active e Flexbox*/
+        flex-wrap: wrap;/*Met les liens en ligne*/
+        justify-content: center;/*Centre les liens*/
+    }
 }
 
 .niv1 {
@@ -174,7 +227,104 @@ footer {
     margin-left: 30px;/*Décale le texte vers la droite*/
 }
 
+.niv3 {
+    margin-left: 45px;/*Décale le texte vers la droite*/
+}
+
+.niv4 {
+    margin-left: 60px;/*Décale le texte vers la droite*/
+}
+
+.niv5 {
+    margin-left: 75px;/*Décale le texte vers la droite*/
+}
+
 .code_sql {
     border-left: 2px solid var(--couleur-texte1);/*Ajoute une bordure à gauche*/
     padding-left: 10px;/*Décale le texte vers la droite*/
+}
+
+.image_a {
+    width: 750px; /* Largeur de l'image */
+    height: auto; /* Garde les proportions originales */
+}
+
+.image_b {
+    width: 600px; /* Largeur de l'image */
+    height: auto; /* Garde les proportions originales */
+}
+
+.image_c {
+    width: 750px; /* Largeur de l'image */
+    height: auto; /* Garde les proportions originales */
+}
+
+.image_d {
+    width: 600px; /* Largeur de l'image */
+    height: auto; /* Garde les proportions originales */
+}
+
+.image_e {
+    width: 450px; /* Largeur de l'image */
+    height: auto; /* Garde les proportions originales */
+}
+
+.image_f {
+    width: 900px; /* Largeur de l'image */
+    height: auto; /* Garde les proportions originales */
+}
+
+.image_g {
+    width: 600px; /* Largeur de l'image */
+    height: auto; /* Garde les proportions originales */
+}
+
+.image_h {
+    width: 450px; /* Largeur de l'image */
+    height: auto; /* Garde les proportions originales */
+}
+
+.image_i {
+    width: 600px; /* Largeur de l'image */
+    height: auto; /* Garde les proportions originales */
+}
+
+.image_j {
+    width: 900px; /* Largeur de l'image */
+    height: auto; /* Garde les proportions originales */
+}
+
+.image_2 {
+    width: 150px; /* Largeur de l'image */
+    height: auto; /* Garde les proportions originales */
+}
+
+.image_3 {
+    width: 350px; /* Largeur de l'image */
+    height: auto; /* Garde les proportions originales */
+}
+
+.image_4 {
+    width: 600px; /* Largeur de l'image */
+    height: auto; /* Garde les proportions originales */
+}
+
+.image_5 {
+    width: 600px; /* Largeur de l'image */
+    height: auto; /* Garde les proportions originales */
+}
+
+.image_Enoncé1 {
+    width: 350px; /* Largeur de l'image */
+    height: auto; /* Garde les proportions originales */
+}
+
+.image_Enoncé2 {
+    width: 900px; /* Largeur de l'image */
+    height: auto; /* Garde les proportions originales */
+}
+
+.image_Enoncé3 {
+    width: 450px; /* Largeur de l'image */
+    height: auto; /* Garde les proportions originales */
 }
