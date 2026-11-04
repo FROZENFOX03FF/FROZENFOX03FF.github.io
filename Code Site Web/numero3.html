@@ -106,43 +106,28 @@ ORDER BY Pr.CoutAchat DESC;
     </article>
     <article>
         <h3>
-            Enoncé : renvoyer les chiffres d’affaires par pays fournisseur 
+            Enoncé 3: renvoyer les chiffres d’affaires par pays fournisseur 
         </h3>
         <section class="interet">
             <h5>Interet :</h5>
             <p>
-                ?????
+               Cette requête permet d'afficher, pour chaque pays fournisseur, le montant total des frais de port et le nombre de commandes associées.
+Pour KDou, c'est un outil concret pour optimiser notre budget logistique. En classant les résultats du plus cher au moins cher, on repère directement les zones qui pèsent trop lourd dans nos dépenses. Cela nous donne des chiffres précis pour réajuster nos choix d'approvisionnement ou négocier de meilleurs tarifs avec nos transporteurs.
             </p>
         </section>
 
         <section class="requete-sql">
             <h5>Requête SQL :</h5>
             <pre><code>
-                SELECT 
-    Sub.PaysFR AS Pays_Fournisseur, 
-    COUNT(Sub.[N° commande]) AS Nb_Commandes, 
-    SUM(Sub.Port) AS Total_Frais_Port
-FROM (
-    SELECT DISTINCT 
-        Pa.PaysFR, 
-        C.[N° commande], 
-        C.Port
-    FROM 
-        Pays AS Pa, 
-        Fournisseur AS F, 
-        Produit AS Pr, 
-        DetailCommande AS DC, 
-        Commande AS C
-    WHERE 
-        Pa.NoPays = F.NoPays
+SELECT Sub.PaysFR AS Pays_Fournisseur, COUNT(Sub.[N° commande]) AS Nb_Commandes, SUM(Sub.Port) AS Total_Frais_Port
+FROM (SELECT DISTINCT Pa.PaysFR, C.[N° commande], C.Port
+    FROM Pays AS Pa, Fournisseur AS F, Produit AS Pr, DetailCommande AS DC, Commande AS C
+WHERE Pa.NoPays = F.NoPays
         AND F.NoFour = Pr.NoFour
         AND Pr.RefProd = DC.[Réf produit]
-        AND DC.[N° commande] = C.[N° commande]
-) AS Sub
-GROUP BY 
-    Sub.PaysFR
-ORDER BY 
-    SUM(Sub.Port) DESC;
+        AND DC.[N° commande] = C.[N° commande]) AS Sub
+GROUP BY Sub.PaysFR
+ORDER BY SUM(Sub.Port) DESC;
 
             </code></pre>
         </section>
