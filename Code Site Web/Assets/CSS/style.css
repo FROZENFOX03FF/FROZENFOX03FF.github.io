@@ -185,6 +185,7 @@ footer {
 
 .requete-sql code {
     color: var(--couleur-texte1);/*Change la couleur du texte*/
+    font-size: 20px;/*Modifie la taille du texte*/
 }
 
 @media screen and (max-width: 768px){/*Décrit les changement pour mobiles*/
